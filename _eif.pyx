@@ -28,6 +28,8 @@ cdef class iForest:
     def __cinit__ (self, np.ndarray[double, ndim=2] X not None, int ntrees, int sample_size, int limit=0, int ExtensionLevel=0, int seed=-1):
         if ExtensionLevel < 0:
             raise Exception("Wrong Extension")
+        if len(X) < ntrees or len(X) < sample_size:
+            raise Exception("Wrong number of trees or sample size")
         self.thisptr = new __eif.iForest (ntrees, sample_size, limit, ExtensionLevel, seed)
         if not X.flags['C_CONTIGUOUS']:
             X = X.copy(order='C')
